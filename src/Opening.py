@@ -47,13 +47,83 @@ class Opening:
     # Defines the vertices and faces        
     def generate(self):
         self.vertices = [ 
-                # Définir ici les sommets
+            [0, 0, 0 ], 
+            [0, 0, self.parameters['height']], 
+            [self.parameters['width'], 0, self.parameters['height']],
+            [self.parameters['width'], 0, 0],
+            [0, self.parameters['thickness'], 0 ], 
+            [0, self.parameters['thickness'], self.parameters['height']], 
+            [self.parameters['width'], self.parameters['thickness'], self.parameters['height']],
+            [self.parameters['width'], self.parameters['thickness'], 0] 
                 ]
         self.faces = [
-                # définir ici les faces
+            # [0, 3, 2, 1],
+            [3, 7, 6, 2],
+            # [7, 6, 5, 4],
+            [0, 4, 5, 1],
+            [1, 2, 6, 5],
+            [0, 3, 7, 4]
                 ]   
         
     # Draws the faces                
     def draw(self):        
         # A compléter en remplaçant pass par votre code
-        pass
+        gl.glPushMatrix()
+        gl.glTranslate(self.parameters['position'][0],self.parameters['position'][1],self.parameters['position'][2])
+        # gl.glRotate(self.parameters['orientation'],0,0,1)
+        
+    
+                
+        gl.glBegin(gl.GL_LINES)
+                
+                
+        newColor =[]
+        for i in range (0, len(self.parameters['color'])):
+            newColor.append(self.parameters['color'][i]*0.8)
+                    
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[0])
+        gl.glVertex3fv(self.vertices[3])  
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[0])
+        gl.glVertex3fv(self.vertices[1])
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[1])
+        gl.glVertex3fv(self.vertices[5])
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[5])
+        gl.glVertex3fv(self.vertices[6]) 
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[5])
+        gl.glVertex3fv(self.vertices[4])
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[0])
+        gl.glVertex3fv(self.vertices[4]) 
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[4])
+        gl.glVertex3fv(self.vertices[7]) 
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[6])
+        gl.glVertex3fv(self.vertices[7]) 
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[1])
+        gl.glVertex3fv(self.vertices[2]) 
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[2])
+        gl.glVertex3fv(self.vertices[3]) 
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[2])
+        gl.glVertex3fv(self.vertices[6]) 
+        gl.glColor3fv(newColor)
+        gl.glVertex3fv(self.vertices[3])
+        gl.glVertex3fv(self.vertices[7]) 
+                
+        gl.glEnd()  
+        
+        gl.glBegin(gl.GL_QUADS)# Tracé d’un quadrilatère
+        gl.glColor3fv(self.parameters['color']) # Couleur gris moyen
+        for i in range (0, len(self.faces)):
+            for j in range (0,4) :   
+                gl.glVertex3fv(self.vertices[self.faces[i][j]])
+        gl.glEnd()
+        gl.glPopMatrix()
